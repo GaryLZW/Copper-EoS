@@ -1,5 +1,8 @@
 def workflow_slab():
-   def EOS():
+   #You can define this EOS function outside the workflow function.
+   #You did not set an parameters for EOS(). What if the user want to change the element and lattice parameter then?
+   #There is no return value. The optimised lattice parameter is only printed.
+   def EOS():      
        import numpy as np
 
        from ase import Atoms
@@ -35,6 +38,13 @@ def workflow_slab():
        print(a)
 
    #bulk
+   #You can define this function outside the workflow function too. This would make your code looks tidy and easier to maintain
+   #Why do you want this bulk parameter? It seems redundant to me.
+   #Parameter fcc and cubic not used in the function. They are supposed 
+   #to be used when you call the bulk function, right?
+
+   #Not really sure why you delete the slab part of this function. We should build
+   #the bulk structure inside this function and use it to construct slabs.
    def generate_slabs(bulk, Cu,  fcc, a, cubic=True):
        from ase.build import bulk
        from ase.visualize import view
@@ -42,8 +52,9 @@ def workflow_slab():
        if bulk:
         a1 = bulk('Cu', 'fcc', a=a)
         view(a1)
-
-   EOS()
+ 
+   EOS() #This line only prints out the lattice parameter you get. Add a return statement to the function. 
+         #Then a = EOS() stores the value of your optimised lattice parameter
    generate_slabs(bulk=True, Cu='Cu', fcc='fcc', a=a, cubic=True)
 
 workflow_slab()
